@@ -97,8 +97,14 @@ public class Board extends JComponent implements MouseInputListener, ComponentLi
 			g.drawLine(firstX, y, lastX, y);
 			y += gridSpace;
 		}
-
-		for (x = 0; x < points.length; ++x) {
+		int l1;
+		if(this.points == null){
+			l1 = 0;
+		}
+		else{
+			l1 = this.points.length;
+		}
+		for (x = 0; x < l1; ++x) {
 			for (y = 0; y < points[x].length; ++y) {
 				if (points[x][y].getState() != 0) {
 					switch (points[x][y].getState()) {
