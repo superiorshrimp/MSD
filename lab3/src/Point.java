@@ -1,6 +1,6 @@
 
 public class Point {
-    public static double p = 0.5;
+    public static double p = 0.2;
     public int type;
     public Point next;
     public boolean moved;
