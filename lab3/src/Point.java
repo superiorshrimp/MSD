@@ -1,44 +1,43 @@
 
 public class Point {
-    public static double p = 0.8;
+    public static double p = 0.5;
     public int type;
     public Point next;
     public boolean moved;
     public int speed = 0;
-    public void move() {
-        if(this.type == 1){
-            if( this.speed > 0 && (int) (Math.random() * 100) < p*100){
-                this.speed -= 1;
+
+    private int distance(){
+        int counter = 0;
+        Point car = this.next;
+        while(counter < 5 && counter < this.speed + 1 && !car.moved){
+            if(car.type == 1){
+                return counter;
             }
-            this.moved = true;
-            int j = 0;
-            Point c = this.next;
-            while(c.type == 0 && j<5 && j<this.speed + 1 && !c.moved){
-                j++;
-                c = c.next;
-            }
-            int rem_speed = this.speed;
-            if(j > 0){
-                this.speed = 0;
-                this.type = 0;
-            }
-            else{return;}
-            c = this.next;
-            c.moved = true;
-            int rem = j;
-            while(j>0){
-                c = c.next;
-                c.moved = true;
-                j--;
-            }
-            c.type = 1;
-            if(rem > rem_speed){
-                c.speed = rem_speed + 1;
-            }
-            else{
-                c.speed = rem;
-            }
+            counter++;
+            car.moved = true;
+            car = car.next;
         }
+        return counter;
+    }
+
+    public void move() {
+        if(this.type == 0){return;}
+        if(this.speed > 0 && Math.random() < p){
+            this.speed -= 1;
+        }
+        this.moved = true;
+        int dist = this.distance();
+        Point car = this.next;
+        if(dist == 0){
+            return;
+        }
+        for(int i = 0; i<dist - 1; i++){
+            car = car.next;
+        }
+        car.type = 1;
+        car.speed = dist;
+        this.type = 0;
+        this.speed = 0;
     }
 
     public void clicked() {
