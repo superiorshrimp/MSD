@@ -47,6 +47,24 @@ public class Board extends JComponent implements MouseInputListener, ComponentLi
                 else{
                     points[x][y].next = points[0][y];
                 }
+                if(x - 1 >= 0){
+                    points[x][y].prev = points[x - 1][y];
+                }
+                else{
+                    points[x][y].prev = points[points.length-1][y];
+                }
+                if(y - 1 >= 0){
+                    points[x][y].upper = points[x][y-1];
+                }
+                else{
+                    points[x][y].upper = points[x][points[x].length-1];
+                }
+                if(y + 1 < points[x].length){
+                    points[x][y].lower = points[x][y+1];
+                }
+                else{
+                    points[x][y].lower = points[x][0];
+                }
             }
         }
     }
@@ -68,6 +86,28 @@ public class Board extends JComponent implements MouseInputListener, ComponentLi
 
         for (int x = 0; x < len; ++x) {
             for (int y = 0; y < points[x].length; ++y) {
+                if(!points[x][y].moved){
+                    if(y == 2){
+                        int counter = 0;
+                        Point car = points[x][y].prev;
+                        while(counter < 7){
+                            if(car.type != 0 && car.type != 5){
+                                if(1 + 2*car.type > points[x][y].speed){
+                                    points[x][y].returning();
+                                }
+                                break;
+                            }
+                            counter++;
+                            car = car.prev;
+                        }
+
+                    }
+                }
+                if(!points[x][y].moved){
+                    if(y == 3){
+                        points[x][y].overtake();
+                    }
+                }
                 if(!points[x][y].moved){
                     points[x][y].move();
                 }
