@@ -47,12 +47,20 @@ public class Board extends JComponent implements MouseInputListener, ComponentLi
 				points[x][y] = new Point();
 
 		for (int x = 1; x < points.length-1; ++x) {
-			for (int y = 1; y < points[x].length-1; ++y) {			
+			for (int y = 1; y < points[x].length-1; ++y) {
+				for(int i = -1; i<=1; i++){
+					for(int j = -1; j<=1; j++){
+						if((i != 0 || j != 0) && x+i >0 && x+i < points.length-1 && y+j >0 && y+j < points[x].length-1){
+							points[x][y].addNeighbor(points[x+i][y+j]); //von Neumann
+						}
+					}
+				}
 			}
 		}	
 	}
 	
 	private void calculateField(){
+
 	}
 
 	protected void paintComponent(Graphics g) {
