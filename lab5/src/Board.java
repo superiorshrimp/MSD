@@ -5,6 +5,7 @@ import java.awt.event.ComponentEvent;
 import java.awt.event.ComponentListener;
 import java.awt.event.MouseEvent;
 import java.util.ArrayList;
+import java.util.Collections;
 
 import javax.swing.JComponent;
 import javax.swing.event.MouseInputListener;
@@ -14,6 +15,7 @@ public class Board extends JComponent implements MouseInputListener, ComponentLi
 	private Point[][] points;
 	private int size = 10;
 	public int editType=0;
+	public ArrayList<Point> toCheck = new ArrayList<Point>();
 
 	public Board(int length, int height) {
 		addMouseListener(this);
@@ -24,9 +26,31 @@ public class Board extends JComponent implements MouseInputListener, ComponentLi
 	}
 
 	public void iteration() {
+		for (int x = 1; x < points.length - 1; ++x){
+			for (int y = 1; y < points[x].length - 1; ++y) {
+				if(points[x][y].type != 1){
+					points[x][y].blocked = false;
+				}
+			}
+		}
+
+		ArrayList<Pair> shuff = new ArrayList<Pair>();
+		for (int x = 1; x < points.length - 1; ++x)
+			for (int y = 1; y < points[x].length - 1; ++y)
+				shuff.add(new Pair(x,y));
+		Collections.shuffle(shuff);
+
+		while(!shuff.isEmpty()){
+			Pair el =  shuff.get(0);
+			points[el.left][el.right].move();
+			shuff.remove(0);
+		}
+		/*
 		for (int x = 1; x < points.length - 1; ++x)
 			for (int y = 1; y < points[x].length - 1; ++y)
 				points[x][y].move();
+		*/
+
 		this.repaint();
 	}
 
@@ -42,25 +66,56 @@ public class Board extends JComponent implements MouseInputListener, ComponentLi
 	private void initialize(int length, int height) {
 		points = new Point[length][height];
 
-		for (int x = 0; x < points.length; ++x)
-			for (int y = 0; y < points[x].length; ++y)
+		for (int x = 0; x < points.length; ++x){
+			for (int y = 0; y < points[x].length; ++y){
 				points[x][y] = new Point();
+			}
+		}
 
 		for (int x = 1; x < points.length-1; ++x) {
 			for (int y = 1; y < points[x].length-1; ++y) {
+				/*
 				for(int i = -1; i<=1; i++){
 					for(int j = -1; j<=1; j++){
 						if((i != 0 || j != 0) && x+i >0 && x+i < points.length-1 && y+j >0 && y+j < points[x].length-1){
 							points[x][y].addNeighbor(points[x+i][y+j]); //von Neumann
 						}
 					}
+				} */
+				///* Moore
+				if(x-1>0){
+					points[x][y].addNeighbor(points[x-1][y]);
 				}
+				if(x+1 < points.length-1){
+					points[x][y].addNeighbor(points[x+1][y]);
+				}
+				if(y-1>0){
+					points[x][y].addNeighbor(points[x][y-1]);
+				}
+				if(y+1 < points[x].length-1){
+					points[x][y].addNeighbor(points[x][y+1]);
+				}
+				//*/
 			}
 		}	
 	}
 	
 	private void calculateField(){
-
+		while(!toCheck.isEmpty()){
+			Point p = toCheck.get(0);
+			if(p.type == 2){
+				p.staticField = 0;
+				for(Point nei : p.neighbors){
+					if(nei.type != 2 && nei.type != 1){
+						toCheck.add(nei);
+					}
+				}
+			}
+			if(p.calcStaticField()){
+				toCheck.addAll(p.neighbors);
+			}
+			toCheck.remove(0);
+		}
 	}
 
 	protected void paintComponent(Graphics g) {
@@ -91,7 +146,12 @@ public class Board extends JComponent implements MouseInputListener, ComponentLi
 			y += gridSpace;
 		}
 
-		for (x = 1; x < points.length-1; ++x) {
+		int len = 0;
+		if(points != null){
+			len = points.length-1;
+		}
+
+		for (x = 1; x < len; ++x) {
 			for (y = 1; y < points[x].length-1; ++y) {
 				if(points[x][y].type==0){
 					float staticField = points[x][y].staticField;
@@ -102,9 +162,11 @@ public class Board extends JComponent implements MouseInputListener, ComponentLi
 					g.setColor(new Color(intensity, intensity,intensity ));
 				}
 				else if (points[x][y].type==1){
+					points[x][y].blocked = true;
 					g.setColor(new Color(1.0f, 0.0f, 0.0f, 0.7f));
 				}
 				else if (points[x][y].type==2){
+					toCheck.add(points[x][y]);
 					g.setColor(new Color(0.0f, 1.0f, 0.0f, 0.7f));
 				}
 				if (points[x][y].isPedestrian){
