@@ -5,18 +5,9 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="7f19ffd7-60d7-430a-854b-b1441ab0d4ff" name="Changes" comment="">
-      <change afterPath="$PROJECT_DIR$/.idea/compiler.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/runConfigurations.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/misc.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/misc.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/lab3-cars/Board.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/lab3-cars/GUI.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/lab3-cars/Point.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/lab3-cars/Program.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/lab4/Board.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/lab4/GUI.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/lab4/Point.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/lab4/Program.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/lab5/production/lab4/Board.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/lab5/production/lab4/Board.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/lab5/production/lab4/Point.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/lab5/production/lab4/Point.class" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/Board.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/Board.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/Point.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/Point.java" afterDir="false" />
     </list>
@@ -82,6 +73,8 @@
       <option name="presentableId" value="Default" />
       <updated>1648043880951</updated>
       <workItem from="1649263387098" duration="9423000" />
+      <workItem from="1649945941585" duration="3660000" />
+      <workItem from="1650039916548" duration="956000" />
     </task>
     <servers />
   </component>

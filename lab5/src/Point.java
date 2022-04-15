@@ -1,4 +1,5 @@
 import java.util.ArrayList;
+import java.util.Collections;
 
 public class Point {
 
@@ -32,7 +33,7 @@ public class Point {
 				walls = 1;
 			}
 		}
-		if(min + 1 + walls < this.staticField){
+		if(min + 1 + walls < this.staticField){ //repulsion from walls
 			this.staticField = min + 1 + walls;
 			return true;
 		}
@@ -43,13 +44,25 @@ public class Point {
 		if(this.isPedestrian && !this.blocked){
 			int min = this.staticField;
 			Point rem = null;
-			//int count = 0;
-			//for(Point nei : this.neighbors){if(nei.isPedestrian && nei.staticField <= this.staticField){count++;}}
+			int count = 0;
+			ArrayList<Point> tmp = new ArrayList();
+			for(Point nei : this.neighbors){tmp.add(nei);}
+			Collections.shuffle(tmp);
+			for(Point nei : tmp){if(!nei.isPedestrian && nei.staticField < this.staticField && nei.type != 1){ //choose random closest to exit tile
+				this.isPedestrian = false;
+				this.blocked = true;
+				if(nei.type != 2){
+					nei.isPedestrian = true;
+					nei.blocked = true;
+				}
+				return;
+			}}
+			for(Point nei : this.neighbors){if(nei.isPedestrian && nei.staticField == this.staticField){count++;}}
 			for(Point nei : this.neighbors){
-				//int cnt = -count;
-				//for(Point neig : nei.neighbors){if(neig.isPedestrian && neig.staticField <= nei.staticField){cnt++;}}
-				if(!nei.isPedestrian && !nei.blocked && min >= nei.staticField){// - cnt){
-					min = nei.staticField;// - cnt;
+				int cnt = -count;
+				for(Point neig : nei.neighbors){if(neig.isPedestrian && neig.staticField == nei.staticField){cnt++;}} //number of people around matters
+				if(!nei.isPedestrian && !nei.blocked && min >= nei.staticField - cnt){
+					min = nei.staticField - cnt;
 					rem = nei;
 				}
 			}
